@@ -4,8 +4,8 @@ const { connection, connection2 } = require('../mongo')
 const { userSchema } = require('../schema')
 
 router.get('/', async (ctx, next) => {
-  let result = '';
-  const db = connection();
+  let result = ''
+  const db = connection()
   const User = db.model('lijias', userSchema)
   const userModel = new User({
     name: '果王',
@@ -38,6 +38,11 @@ router.get('/', async (ctx, next) => {
 
 router.get('/connection2', async (ctx, next) => {
   let result = '';
+  const User = mongoose.model('lijias', userSchema)
+  const userModel = new User({
+    name: '果王',
+    old: Math.round(Math.random()*100),
+  })
 
   connection2();
 
@@ -49,6 +54,16 @@ router.get('/connection2', async (ctx, next) => {
     else {
       console.log('链接成功！')
       result = '连接成功！'
+
+      userModel.save((err, res) => {
+        console.log(err)
+        console.log(res)
+
+        User.find({name: '果王'}, (err, res) => {
+          console.log(err)
+          console.log(res.length)
+        })
+      })
     }
   })
 
