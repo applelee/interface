@@ -1,0 +1,58 @@
+const router = require('koa-router')()
+const mongoose = require('mongoose')
+const { connection, connection2 } = require('../mongo')
+const { userSchema } = require('../schema')
+
+router.get('/', async (ctx, next) => {
+  let result = '';
+  const db = connection();
+  const User = db.model('lijias', userSchema)
+  const userModel = new User({
+    name: '果王',
+    old: Math.round(Math.random()*100),
+  })
+
+  await db.on('connected', (err, res) => {
+    if (err) {
+      console.log('链接失败！')
+      result = '链接失败！'
+    }
+    else {
+      console.log('链接成功！')
+      result = '连接成功！'
+
+      userModel.save((err, res) => {
+        console.log(err)
+        console.log(res)
+
+        User.find({name: '果王'}, (err, res) => {
+          console.log(err)
+          console.log(res.length)
+        })
+      })
+    }
+  })
+
+  ctx.body = result
+})
+
+router.get('/connection2', async (ctx, next) => {
+  let result = '';
+
+  connection2();
+
+  await mongoose.connection.on('connected', (err, res) => {
+    if (err) {
+      console.log('链接失败！')
+      result = '链接失败！'
+    }
+    else {
+      console.log('链接成功！')
+      result = '连接成功！'
+    }
+  })
+
+  ctx.body = result
+})
+
+module.exports = router
