@@ -1,16 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 const { mongoDB_conf } = require('../config')
-const { protocol, host, port, database, user, pass } = mongoDB_conf
-const url = `${protocol}://${host}:${port}/${database}`
+const { protocol, host, port } = mongoDB_conf
+const url = `${protocol}://${host}:${port}`
 
-module.exports.connection = () => mongoose.createConnection(url, {
-  user,
-  pass,
-  useNewUrlParser:true,
-})
-
-module.exports.connection2 = () => mongoose.connect(url, {
-  user,
-  pass,
-  useNewUrlParser:true,
+module.exports.userLogin = () => mongoose.createConnection(url, {
+  user: 'kingapple',
+  pass: 'lijia111927',
+  dbName: 'admin',
 })
