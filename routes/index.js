@@ -25,7 +25,7 @@ router.get('/', async (ctx, next) => {
         console.log(err)
         console.log(res)
 
-        // User.find({name: '果王'}, 'name', (err, res) => {
+        // User.find({name: '果王'}, 'name old', (err, res) => {
         //   console.log(err)
         //   console.log(res)
         // })
