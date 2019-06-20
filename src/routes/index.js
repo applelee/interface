@@ -2,9 +2,9 @@ const router = require('koa-router')()
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const { Schema } = mongoose
-const { baseUrl } = require('../config')
+const { baseUrl } = require('../../config')
 const { api } = baseUrl
-const { userLogin } = require('../mongo')
+const { userLogin } = require('../connections')
 const secret = 'lijia111927'
 const token = jwt.sign({
   user: 'lijia',
@@ -27,9 +27,7 @@ router.get(`${api}/user/login`, async (ctx, next) => {
     }
   })
 
-  const User = new Schema({})
-
-  result = await db.model('system.users', User).find({}, (err, res) => {
+  result = await db.model('system.users', {}).find({}, (err, res) => {
     return res
   })
 
