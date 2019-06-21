@@ -5,5 +5,5 @@ exports.mongoDB_conf = {
 }
 
 exports.baseUrl = {
-  api: '/v1/api',
+  apiUrl: '/api/v1',
 }

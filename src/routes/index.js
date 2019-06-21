@@ -2,9 +2,11 @@ const router = require('koa-router')()
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const { Schema } = mongoose
-const { baseUrl } = require('../../config')
-const { api } = baseUrl
+const { baseUrl, mongoDB_conf } = require('../../config')
+const { apiUrl } = baseUrl
 const { userLogin } = require('../connections')
+const { protocol, host, port } = mongoDB_conf
+const url = `${protocol}://${host}:${port}`
 const secret = 'lijia111927'
 const token = jwt.sign({
   user: 'lijia',
@@ -12,18 +14,15 @@ const token = jwt.sign({
 }, secret, {expiresIn: 1})
 const decode = jwt.decode(token, secret)
 
-router.get(`${api}/user/login`, async (ctx, next) => {
+router.post(`${apiUrl}/user/login`, async (ctx, next) => {
   const db = userLogin()
   let result = ''
+
+  console.log(ctx.request.body)
 
   await db.on('connected', err => {
     if (err) {
       console.log('链接失败！')
-      return '链接失败！'
-    }
-    else {
-      console.log('链接成功！')
-      return '链接成功！'
     }
   })
 
@@ -31,9 +30,9 @@ router.get(`${api}/user/login`, async (ctx, next) => {
     return res
   })
 
-  // await db.system.users.find().then(res => {
-  //   console.timeLog('res')
-  // })
+  result = await db.model('lijias', {}).find({}, (err, res) => {
+    return res
+  })
 
   ctx.body = result
 })

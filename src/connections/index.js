@@ -4,7 +4,11 @@ const { protocol, host, port } = mongoDB_conf
 const url = `${protocol}://${host}:${port}`
 
 module.exports.userLogin = () => mongoose.createConnection(url, {
-  user: 'kingapple',
-  pass: 'lijia111927',
-  dbName: 'admin',
+  auth: {
+    authSource: 'admin',
+    user: 'kingapple',
+    password: 'lijia111927',
+  },
+  dbName: 'lijia',
+  seNewUrlParser: true,
 })
