@@ -20,7 +20,7 @@ app.use(router.routes(), router.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
+  console.error('server error', err)
 });
 
 module.exports = app

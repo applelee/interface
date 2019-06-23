@@ -1,54 +1,14 @@
 const router = require('koa-router')()
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose')
-const { Schema } = mongoose
-const { baseUrl, mongoDB_conf } = require('../../config')
+const { allOptions, userLogin, userList, userAdd } = require('../controllers')
+const { tokenVerify } = require('../middlewares')
+const { baseUrl } = require('../../config')
 const { apiUrl } = baseUrl
-const { userLogin } = require('../connections')
-const { protocol, host, port } = mongoDB_conf
-const url = `${protocol}://${host}:${port}`
-const secret = 'lijia111927'
-const token = jwt.sign({
-  user: 'lijia',
-  pwd: '123456',
-}, secret, {expiresIn: 1})
-const decode = jwt.decode(token, secret)
 
-router.post(`${apiUrl}/user/login`, async (ctx, next) => {
-  const db = userLogin()
-  let result = ''
-
-  console.log(ctx.request.body)
-
-  await db.on('connected', err => {
-    if (err) {
-      console.log('链接失败！')
-    }
-  })
-
-  result = await db.model('system.users', {}).find({}, (err, res) => {
-    return res
-  })
-
-  result = await db.model('lijias', {}).find({}, (err, res) => {
-    return res
-  })
-
-  ctx.body = result
-})
-
-router.get('/', async (ctx, next) => {
-  setTimeout(() => {
-    jwt.verify(token, secret, (err, res) => {
-      console.log('verify========', err, res)
-    });
-
-    const decode = jwt.decode(token, secret)
-    console.log('decode=========', decode)
-  }, 1)
-
-  ctx.body = { token, payload: decode }
-})
+router.options('*', allOptions)
+router.use('*', tokenVerify)
+router.post(`${apiUrl}/user/login`, userLogin)
+router.get(`${apiUrl}/user/list`, userList)
+router.post(`${apiUrl}/user/add`, userAdd)
 
 // router.get(`${apiBaseUrl}/`, async (ctx, next) => {
 //   let result = ''

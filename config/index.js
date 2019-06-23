@@ -7,3 +7,8 @@ exports.mongoDB_conf = {
 exports.baseUrl = {
   apiUrl: '/api/v1',
 }
+
+exports.withToken = {
+  expiresIn: 7200,
+  secret: '凌云记',
+}
