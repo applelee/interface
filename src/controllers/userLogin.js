@@ -7,6 +7,7 @@ module.exports = async ctx => {
   const { body } = ctx.request
   const db = baseConnection(body)
   let result = {}
+  let data = {}
 
   await db.on('connected', err => {
     result = {
@@ -16,12 +17,12 @@ module.exports = async ctx => {
     }
   })
 
-  await db.model('system.users', {}).find({}, (err, res) => {
-    result = {
-      ...result,
-      userType: res.length > 0 ? 'admin' : 'user',
-    }
-  })
+  data = await db.model('system.users', {}).find({})
+  
+  result = {
+    ...result,
+    userType: data.length > 0 ? 'admin' : 'user',
+  }
 
   ctx.body = result
 }

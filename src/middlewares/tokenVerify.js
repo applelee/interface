@@ -8,14 +8,14 @@ module.exports = async (ctx, next) => {
 
   if (ctx.url.indexOf(userLogin) < 0 && token) {
     // ctx.throw(402)
-    // return;
+    // return
 
     try {
       ctx.tokenInfo = jwt.verify(token, secret)
     }
     catch (e) {
       ctx.throw(402)
-      return;
+      return
     }
   }
 

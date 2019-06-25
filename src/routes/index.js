@@ -9,7 +9,7 @@ router.use('*', tokenVerify)
 router.post(`${apiUrl}/user/login`, userLogin)
 router.get(`${apiUrl}/user/adminList`, userAdminList)
 // router.post(`${apiUrl}/user/add`, userAdd)
-router.get(`${apiUrl}/user/delelteAdmin`, userDeleteAdmin)
+router.post(`${apiUrl}/user/deleteAdmin`, userDeleteAdmin)
 
 // router.get(`${apiBaseUrl}/`, async (ctx, next) => {
 //   let result = ''

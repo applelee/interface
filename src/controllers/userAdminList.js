@@ -8,18 +8,12 @@ module.exports = async ctx => {
 
   await db.on('connected', () => {})
 
-  await Admin.find({}, (err, res) => {
-    if (err) {
-      result = err
-      return
-    }
-    
-    result = {
-      code: 200,
-      msg: '成功。',
-      data: res,
-    }
-  })
+  result = await Admin.find({})
+  result = {
+    code: 200,
+    msg: '成功。',
+    data: result,
+  }
 
   ctx.body = result
 }
