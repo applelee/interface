@@ -9,11 +9,6 @@ module.exports = async ctx => {
   let result = {}
 
   await db.on('connected', err => {
-    if (err) {
-      result = err
-      return
-    }
-
     result = {
       code: 200,
       msg: '登陆成功！',

@@ -3,23 +3,20 @@ const { baseConnection } = require('../connections')
 module.exports = async ctx => {
   let result = {}
   const { tokenInfo } = ctx
+  const { user } = ctx.query
   const db = baseConnection(tokenInfo)
   const Admin = db.model('system.users', {})
 
-  await db.on('connected', () => {})
+  // await db.on('connected', () => {})
 
-  await Admin.find({}, (err, res) => {
-    if (err) {
-      result = err
-      return
-    }
+  // await Admin.remove({ user }, (err, res) => {
+  //   if (err) {
+  //     result = err
+  //     return
+  //   }
     
-    result = {
-      code: 200,
-      msg: '成功。',
-      data: res,
-    }
-  })
+  //   console.log(res)
+  // })
 
   ctx.body = result
 }
