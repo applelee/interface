@@ -4,19 +4,23 @@ const { userSchema } = require('../schema')
 module.exports = async ctx => {
   let result = {}
   const { tokenInfo } = ctx
-  // const db = baseConnection(tokenInfo)
-  const db = baseConnection({
-    user: tokenInfo.user,
-    password: tokenInfo.password,
-    authSource: 'admin',
-  }, 'lijia')
-  const User = db.model('apple', userSchema)
+  const db = baseConnection(tokenInfo)
+  // 切换数据库
+  const lijia = db.useDb('lijia')
+  // const db = baseConnection({
+  //   user: tokenInfo.user,
+  //   password: tokenInfo.password,
+  //   authSource: 'admin',
+  // }, 'lijia')
+  const User = lijia.model('apple', userSchema)
   const userModel = new User({
     name: 'small red hat',
     old: Math.round(Math.random()*100),
   })
 
-  await db.on('connected', err => {
+  // lijia.dropCollection('temp')
+
+  await lijia.on('connected', err => {
     if (err) {
       result = err
       return

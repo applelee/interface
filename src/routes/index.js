@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const { allOptions, userLogin, userList, userAdd } = require('../controllers')
+const { allOptions, userLogin, userAdminList, userAdd } = require('../controllers')
 const { tokenVerify } = require('../middlewares')
 const { baseUrl } = require('../../config')
 const { apiUrl } = baseUrl
@@ -7,7 +7,7 @@ const { apiUrl } = baseUrl
 router.options('*', allOptions)
 router.use('*', tokenVerify)
 router.post(`${apiUrl}/user/login`, userLogin)
-router.get(`${apiUrl}/user/list`, userList)
+router.get(`${apiUrl}/user/adminList`, userAdminList)
 router.post(`${apiUrl}/user/add`, userAdd)
 
 // router.get(`${apiBaseUrl}/`, async (ctx, next) => {

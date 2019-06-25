@@ -9,14 +9,16 @@ module.exports = async ctx => {
   let result = {}
 
   await db.on('connected', err => {
-    if (err)
+    if (err) {
       result = err
-    else
-      result = {
-        code: 200,
-        msg: '登陆成功！',
-        token: jwt.sign(body, secret, { expiresIn }),
-      }
+      return
+    }
+
+    result = {
+      code: 200,
+      msg: '登陆成功！',
+      token: jwt.sign(body, secret, { expiresIn }),
+    }
   })
 
   await db.model('system.users', {}).find({}, (err, res) => {

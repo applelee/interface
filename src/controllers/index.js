@@ -1,11 +1,11 @@
 const allOptions = require('./allOptions')
 const userLogin = require('./userLogin')
-const userList = require('./userList')
+const userAdminList = require('./userAdminList')
 const userAdd = require('./userAdd')
 
 module.exports = {
   allOptions,
   userLogin,
-  userList,
+  userAdminList,
   userAdd,
 }
